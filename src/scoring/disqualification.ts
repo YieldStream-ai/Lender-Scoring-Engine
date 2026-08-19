@@ -1,9 +1,17 @@
 /**
- * Hard Disqualification — Gate Checks
+ * Hard Disqualification — Pre-Scoring Gate
  *
- * Before scoring, each lender's buy-box is checked for absolute deal-breakers.
- * If any gate fails, the lender is disqualified (composite = 0) regardless
- * of how well the other layers score.
+ * This is NOT one of the three scoring layers (A/B/C). It's a binary
+ * pass/fail gate that runs before any scoring. If a merchant fails any
+ * gate, the lender is disqualified (composite forced to 0) and the
+ * three layers are never consulted.
+ *
+ * Execution order:
+ *   1. Disqualification gate (this module) — pass/fail
+ *   2. Layer A: Global score (15%)
+ *   3. Layer B: Relationship score (50%)
+ *   4. Layer C: Attribute score (35%)
+ *   5. Composite = weighted sum → decline adjustments → final score
  *
  * Gates: restricted state, restricted industry, revenue floor,
  * FICO floor, max positions, NSF tolerance.

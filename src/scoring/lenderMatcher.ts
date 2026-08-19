@@ -4,13 +4,14 @@
  * Composes the three scoring layers into a single composite score per lender.
  * Every function in this module is pure: data in → scores out, no side effects.
  *
- * Composite formula:
- *   composite = 0.15 × global + 0.50 × relationship + 0.35 × attribute
- *
- * Post-processing:
- *   - Relationship bonus: ×1.15 if ISO has strong pull-through (≥60%, ≥3 funded)
- *   - Decline adjustments: percentage penalty from learning loop (stackable to -50%)
- *   - Disqualified lenders: composite forced to 0
+ * Execution order per lender:
+ *   0. Disqualification gate — binary pass/fail (not a scoring layer)
+ *   1. Layer A: Global score (15%)   — cross-org market signal
+ *   2. Layer B: Relationship (50%)   — ISO-specific pull-through history
+ *   3. Layer C: Attribute (35%)      — merchant vs buy-box financial fit
+ *   4. Composite = 0.15×A + 0.50×B + 0.35×C
+ *   5. Post-processing: relationship bonus (×1.15), decline adjustments
+ *   6. If disqualified → composite forced to 0
  */
 
 import type {
