@@ -1,0 +1,21 @@
+{
+  "name": "lender-scoring-engine",
+  "version": "1.0.0",
+  "description": "Deterministic, relationship-weighted lender scoring — the three-layer matching core extracted from YieldStream",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "demo": "tsx examples/runScoring.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0",
+    "tsx": "^4.16.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}
