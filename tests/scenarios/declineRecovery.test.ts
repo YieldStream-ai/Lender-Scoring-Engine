@@ -11,6 +11,7 @@
 import { describe, it, expect } from "vitest";
 import { matchLenders } from "@/scoring/lenderMatcher.js";
 import { processDecline, getActiveAdjustments } from "@/learning/declineIntelligence.js";
+import type { ScoreAdjustment } from "@/types.js";
 import { coastalBistro } from "@fixtures/merchants.js";
 import { allBuyboxes } from "@fixtures/lenderBuyboxes.js";
 import { historicalDeals } from "@fixtures/historicalDeals.js";
@@ -26,7 +27,7 @@ describe("decline → penalty → recovery lifecycle", () => {
     globalOutcomes,
   };
 
-  const getAtlasScore = (adjustments: typeof baseInput extends { scoreAdjustments: infer T } ? T : never[]) => {
+  const getAtlasScore = (adjustments: ScoreAdjustment[]) => {
     const result = matchLenders({ ...baseInput, scoreAdjustments: adjustments });
     return result.scores.find((s) => s.lenderBuybox.lender_name === "Atlas Capital")!.compositeScore;
   };
